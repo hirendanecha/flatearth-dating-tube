@@ -82,7 +82,7 @@ export function app(): express.Express {
           description:
             'Love Requires Like Minds! Worldwide Flat Earth Social!',
           image:
-            'https://tube.flatearth.dating/assets/Healing-Tube-Logo.jpg',
+            'https://tube.flatearth.dating/assets/meta.png',
           site: 'https://tube.flatearth.dating/',
           url: 'https://tube.flatearth.dating' + params,
           keywords: 'FlatEarth.dating Tube',
