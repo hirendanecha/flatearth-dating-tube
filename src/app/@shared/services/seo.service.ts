@@ -69,7 +69,7 @@ export class SeoService {
     }
 
     if (!tagValue.image) {
-      tagValue.image = 'https://tube.flatearth.dating/assets/Healing-Tube-Logo.jpg';
+      tagValue.image = 'https://tube.flatearth.dating/assets/meta.png';
     }
 
     this.meta.updateTag({

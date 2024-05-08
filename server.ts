@@ -80,7 +80,7 @@ export function app(): express.Express {
         var seo: any = {
           title: 'FlatEarth.dating tube',
           description:
-            'Like Minded Flat Earth Singles Flat Earth Social Network',
+            'Love Requires Like Minds! Worldwide Flat Earth Social!',
           image:
             'https://tube.flatearth.dating/assets/Healing-Tube-Logo.jpg',
           site: 'https://tube.flatearth.dating/',

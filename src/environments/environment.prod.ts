@@ -15,7 +15,7 @@ export const environment = {
   backendUrl: backendUrl,
   loginUrl: loginUrl,
   apiUrl: `${backendUrl}api/v1/`,
-  domain: '.FlatEarth.dating',
+  domain: '.flatearth.dating',
   wasabiUrl: wasabiUrl,
   socketUrl: `${backendUrl}`,
   conferenceUrl: 'https://facetime.tube/',
