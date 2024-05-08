@@ -78,14 +78,14 @@ export function app(): express.Express {
         }
         const params = req.params[0];
         var seo: any = {
-          title: 'Flatearthdating tube',
+          title: 'FlatEarth.dating tube',
           description:
             'Find like minded male or female unvaccinated organic humans!',
           image:
             'https://tube.flatearth.dating/assets/Healing-Tube-Logo.jpg',
           site: 'https://tube.flatearth.dating/',
           url: 'https://tube.flatearth.dating' + params,
-          keywords: 'Flatearthdating Tube',
+          keywords: 'FlatEarth.dating Tube',
         };
         if (
           params.indexOf('channel/') > -1
