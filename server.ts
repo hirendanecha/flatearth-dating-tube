@@ -80,7 +80,7 @@ export function app(): express.Express {
         var seo: any = {
           title: 'FlatEarth.dating tube',
           description:
-            'Find like minded male or female unvaccinated organic humans!',
+            'Like Minded Flat Earth Singles Flat Earth Social Network',
           image:
             'https://tube.flatearth.dating/assets/Healing-Tube-Logo.jpg',
           site: 'https://tube.flatearth.dating/',
