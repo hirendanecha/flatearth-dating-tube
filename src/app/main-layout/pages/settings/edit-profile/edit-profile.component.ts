@@ -34,9 +34,9 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     State: new FormControl({ value: '', disabled: true }, [
       Validators.required,
     ]),
-    Username: new FormControl('', [Validators.required]),
+    userName: new FormControl('', [Validators.required]),
     UserID: new FormControl('', [Validators.required]),
-    ProfilePicName: new FormControl('', [Validators.required]),
+    profilePicName: new FormControl('', [Validators.required]),
     CoverPicName: new FormControl('', [Validators.required]),
   });
 
@@ -72,10 +72,10 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
       Zip: this.useDetails?.Zip,
       City: this.useDetails?.City,
       State: this.useDetails?.State,
-      Username: this.useDetails?.Username,
+      userName: this.useDetails?.userName,
       MobileNo: this.useDetails?.MobileNo || '',
       UserID: this.useDetails?.UserID,
-      ProfilePicName: this.useDetails?.ProfilePicName,
+      profilePicName: this.useDetails?.profilePicName,
       CoverPicName: this.useDetails?.CoverPicName,
     };
     this.userForm.setValue(data);

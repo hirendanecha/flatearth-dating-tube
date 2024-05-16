@@ -41,13 +41,13 @@
           >
           <input
             class="form-control border-form-control"
-            formControlName="Username"
+            formControlName="userName"
             type="text"
           />
           <div
             class="srv-validation-message text-danger"
-            *ngIf="userForm?.controls['Username']?.invalid &&
-                     userForm?.controls['Username']?.errors?.['required']"
+            *ngIf="userForm?.controls['userName']?.invalid &&
+                     userForm?.controls['userName']?.errors?.['required']"
           >
             Username field is required.
           </div>

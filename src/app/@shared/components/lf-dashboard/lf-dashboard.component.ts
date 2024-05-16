@@ -39,6 +39,9 @@ export class LfDashboardComponent implements OnInit {
   apiUrl = environment.apiUrl;
   channelId: any;
   channelData: any = {};
+  channelList: any = [];
+  mediaApproved: boolean;
+  userId: number;
   constructor(
     private route: ActivatedRoute,
     private commonService: CommonService,
@@ -65,9 +68,9 @@ export class LfDashboardComponent implements OnInit {
     //   console.log(params.channelId);
     if (newParams['channelId']) {
       this.channelId = newParams['channelId'];
-      delete newParams['channelId']
+      delete newParams['channelId'];
       const navigationExtras: NavigationExtras = {
-        queryParams: newParams
+        queryParams: newParams,
       };
       this.router.navigate([], navigationExtras);
     }
@@ -81,6 +84,12 @@ export class LfDashboardComponent implements OnInit {
     if (!this.channelId) {
       this.channelId = +localStorage.getItem('channelId');
     }
+    if (this.userId) {
+      this.getChannels();
+    }
+    this.shareService.mediaApproved$.subscribe(value => {
+      this.mediaApproved = value;
+    });    
   }
 
   getChannelDetails(value): void {
@@ -105,31 +114,64 @@ export class LfDashboardComponent implements OnInit {
 
   getSearchData(searchText): void {
     this.searchTextEmitter?.emit(searchText);
-    this.searchText = ''
+    this.searchText = '';
   }
 
   openProfile(Id): void {
-    const url = `https://flatearth.dating/settings/view-profile/${Id}`;
+    const url = `https://organic.dating/settings/view-profile/${Id}`;
     window.open(url, '_blank');
   }
 
   isUserMediaApproved(): boolean {
-    return this.shareService.userDetails.MediaApproved === 1;
-    // return this.useDetails?.MediaApproved === 1;
+  return this.shareService.userDetails.MediaApproved === 1;
+  // return this.useDetails?.MediaApproved === 1;
   }
 
+  // openVideoUploadPopUp(): void {
+  //   const modalRef = this.modalService.open(VideoPostModalComponent, {
+  //     centered: true,
+  //     size: 'lg',
+  //   });
+  //   modalRef.componentInstance.title = `Upload Video`;
+  //   modalRef.componentInstance.confirmButtonLabel = 'Upload Video';
+  //   modalRef.componentInstance.cancelButtonLabel = 'Cancel';
+  //   modalRef.componentInstance.channelList = this.channelList;
+  //   modalRef.result.then((res) => {
+  //     if (res === 'success') {
+  //       window.location.reload();
+  //     }
+  //     // console.log(res);
+  //   });
+  // }
   openVideoUploadPopUp(): void {
-    const modalRef = this.modalService.open(VideoPostModalComponent, {
-      centered: true,
-      size: 'lg',
-    });
-    modalRef.componentInstance.title = `Upload Video`;
-    modalRef.componentInstance.confirmButtonLabel = 'Upload Video';
-    modalRef.componentInstance.cancelButtonLabel = 'Cancel';
-    modalRef.result.then((res) => {
-      window.location.reload();
-      // console.log(res);
-    });
+    const openModal = () => {
+      const modalRef = this.modalService.open(VideoPostModalComponent, {
+        centered: true,
+        size: 'lg',
+      });
+      modalRef.componentInstance.title = `Upload Video`;
+      modalRef.componentInstance.confirmButtonLabel = 'Upload Video';
+      modalRef.componentInstance.cancelButtonLabel = 'Cancel';
+      modalRef.componentInstance.channelList = this.channelList;
+      modalRef.result.then((res) => {
+        if (res === 'success') {
+          window.location.reload();
+        }
+      });
+    };
+  
+    if (!this.channelList || !this.channelList.length) {
+      this.userId = JSON.parse(this.authService.getUserData() as any)?.UserID;
+      const apiUrl = `${environment.apiUrl}channels/get-channels/${this.userId}`;
+      this.commonService.get(apiUrl).subscribe(
+        (res) => {
+          this.channelList = res.data;
+          openModal();
+        }
+      )
+    } else {
+      openModal();
+    }
   }
 
   createChannel(): void {
@@ -153,10 +195,26 @@ export class LfDashboardComponent implements OnInit {
     });
   }
 
-  getmyChannel() {
-    const unique_link = this.shareService.channelData.unique_link;
+  getmyChannel(link): void {
+    const unique_link = link || this.shareService.channelData.unique_link;
     this.router.navigate([`channel/${unique_link}`], {
       state: { data: unique_link },
+    });
+  }
+
+  getChannels(): void {
+    this.userId = JSON.parse(this.authService.getUserData() as any)?.UserID;
+    const apiUrl = `${environment.apiUrl}channels/get-channels/${this.userId}`;
+    this.commonService.get(apiUrl).subscribe({
+      next: (res) => {
+        this.channelList = res.data;
+        let channelIds = this.channelList.map(e => e.id);
+        localStorage.setItem('get-channels', JSON.stringify(channelIds));
+        // console.log(this.channelList);
+      },
+      error(err) {
+        console.log(err);
+      },
     });
   }
 }

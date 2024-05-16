@@ -52,11 +52,11 @@
     <img
       loading="lazy"
       class="w-32-px h-32-px rounded"
-      data-src="{{ item.ProfilePicName }}"
-      [alt]="item.Username"
-      onerror="this.onerror=null;this.src='assets/profile.png';"
+      data-src="{{ item.profilePicName }}"
+      [alt]="item.userName"
+      onerror="this.onerror=null;this.src='assets/img/profile.png';"
     />
-    <span>{{ item.Username }}</span>
+    <span>{{ item.userName }}</span>
   </div>
 </ng-template>
 

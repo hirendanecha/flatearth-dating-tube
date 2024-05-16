@@ -17,6 +17,8 @@ export class ShareService {
   userChannelName: string
   isUserAuthenticated: Subject<boolean> = new BehaviorSubject<boolean>(false);
   public _credentials: any = {};
+  private mediaApprovedSubject = new BehaviorSubject<boolean>(false);
+  mediaApproved$ = this.mediaApprovedSubject.asObservable();
 
   constructor(
     private commonService: CommonService,
@@ -82,13 +84,20 @@ export class ShareService {
     });
   }
 
+  updateMediaApproved(value: boolean) {
+    this.mediaApprovedSubject.next(value);
+  }
+
   getUserDetails(id: any): void {
     // const id = JSON.parse(this.authService.getUserData() as any)?.profileId
     const url = environment.apiUrl + `customers/profile/${id}`
     this.commonService.get(url).subscribe({
       next: ((res: any) => {
         localStorage.setItem('authUser', JSON.stringify(res.data[0]));
-        this.userDetails = res.data[0]
+        this.userDetails = res.data[0];
+        const mediaApproved = res.data[0].MediaApproved === 1;
+        this.updateMediaApproved(mediaApproved);
+        console.log(this.userDetails)
         this.getChannelByUserId(this.userDetails?.channelId);
       }), error: error => {
         console.log(error)
@@ -96,8 +105,12 @@ export class ShareService {
     })
   }
   getNotificationList() {
-    const id = localStorage.getItem('profileId');
-    this.commonService.getNotificationList(Number(id)).subscribe({
+    const id = this.userDetails.Id;
+    const data = {
+      page: 1,
+      size: 20,
+    };
+    this.commonService.getNotificationList(Number(id), data).subscribe({
       next: (res: any) => {
         localStorage.setItem('isRead', 'Y');
         this.isNotify = false;
@@ -129,7 +142,6 @@ export class ShareService {
 
   getCredentials(): any {
     this._credentials = JSON.parse(this.authService.getUserData() as any) || null;
-    console.log(this._credentials);
     const isAuthenticate = Object.keys(this._credentials || {}).length > 0;
     this.changeIsUserAuthenticated(isAuthenticate);
     return isAuthenticate;
