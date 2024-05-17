@@ -147,7 +147,7 @@ export class VideoComponent implements OnInit, OnChanges {
         this.videoDetails = res[0];
 
         const data = {
-          title: `OrganicDating.tube ${this.videoDetails.albumname}`,
+          title: `FlatEarthDating.tube ${this.videoDetails.albumname}`,
           description: this.videoDetails.postdescription,
         };
         this.seoService.updateSeoMetaData(data);
@@ -645,7 +645,7 @@ export class VideoComponent implements OnInit, OnChanges {
   }
 
   openProfile(Id): void {
-    const url = `https://tube.organic.dating/channel/${Id}`;
+    const url = `https://tube.flatearth.dating/channel/${Id}`;
     window.open(url, '_blank');
   }
 
