@@ -128,7 +128,7 @@ export function app(): express.Express {
           const talent = {
             name: post?.title || post?.albumname || 'Flatearth.Dating Post',
             description: pdhtml?.textContent || 'Post content',
-            image: post?.thumbfilename || post?.metaimage || post?.imageUrl || 'https://tube.flatearth.dating/assets/Healing-Tube-Logo.jpg',
+            image: post?.thumbfilename || post?.metaimage || post?.imageUrl || 'https://tube.flatearth.dating/assets/meta.png',
           };
           seo.title = talent.name;
           seo.description = strip_html_tags(talent.description);
